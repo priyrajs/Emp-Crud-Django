@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+{% comment %} 
+<div id="res" class="alert alert-success alert-dismissible fade show my-0" role="alert">
+  <strong >Employee Created</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div> {% endcomment %}
+<form method="POST">
+{% csrf_token %}
+  <div class="form-row">
+  <div class="form-group col-md-6">
+    <label for="exampleInputEmail1">Employee Name</label>
+    <input value="{% for employee in employees %}{{employee.name}}{% endfor %}" id="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter name">
+  </div>
+  <div class="form-group col-md-6">
+    <label for="exampleInputPassword1">Salary</label>
+    <input value="{% for employee in employees %}{{employee.salary}}{% endfor %}" id="salary" type="text" class="form-control" id="exampleInputPassword1" placeholder="Salary">
+  </div>
+  </div>
+  <div class="form-row">
+  <div class="form-group col-md-4">
+      <label for="inputState" name="department">Department</label>
+      <select id = "department" id="inputState" class="form-control">
+      {% for department in departments %}
+        <option value="{{department.department_id}}"
+        {% for employee in employees %}
+        {% if employee.department|slugify == department.name|slugify %}
+        selected="selected" 
+        {% endif %} {% endfor %}>{{department.name}}</option>
+      
+      {% endfor %}
+      </select>
+    </div>
+  </div>
+  <input type="hidden" name="edit_id" value="{% for employee in employees %}{{employee.employee_id}}{% endfor %}">
+  <input type="hidden" name="selected_dept" value="{% for employee in employees %}{{employee.department}}{% endfor %}">
+  <button class=" adduser btn btn-primary" type="button">Submit</button>
+</form>
+
+{% endblock body %}

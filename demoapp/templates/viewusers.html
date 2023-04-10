@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+<div id="deleteModal" class="modal fade" role='dialog'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Delete </h4>
+            </div>
+            <div class="modal-body">
+                <p>Do You Really Want to Delete This ?</p>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<span id= 'deleteButton'></span>
+            </div>
+			
+        </div>
+      </div>
+  </div>
+<table id="myTable" class="table table-sm">
+{% csrf_token %}
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Salary</th>
+      <th scope="col">Department</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    {% for employee in employees %}
+    <tr>
+      <th scope="row">{{employee.employee_id}}</th>
+      <td>{{employee.name}}</td>
+      <td>{{employee.salary}}</td>
+      <td>{{employee.department}}</td>
+      <td><a id="{{employee.employee_id}}" href="/?action=Edit&emp_id={{employee.employee_id}}" class="edit btn btn-info" type="submit">Edit</a><button id="{{employee.employee_id}}" class=" delete btn btn-danger" type="submit" onclick="confirmDeleteModal({{employee.employee_id}})">Delete</button></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock body %}
